@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Assistant Spirituel</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#27ae60">
+  <link rel="icon" href="icon.png" type="image/png">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+      color: #333;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #2c3e50;
+      text-align: center;
+    }
+    .section {
+      background: #e8f8f5;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #219150;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+      margin-top: 10px;
+    }
+    ul {
+      margin-top: 10px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🕌 Mon Assistant Spirituel</h1>
+
+    <div class="section">
+      <strong>📿 Rappel du jour :</strong>
+      <p id="dailyReminder">Chargement...</p>
+      <button onclick="newReminder()">Nouveau rappel</button>
+    </div>
+
+    <div class="section">
+      <strong>📌 Lien utile :</strong>
+      <p><a href="https://www.easy-delivery.com/fr/livraison/temu/gabon" target="_blank">Commander sur Temu depuis le Gabon</a></p>
+    </div>
+
+    <div class="section">
+      <strong>📝 Mes notes personnelles :</strong>
+      <textarea id="userNotes" placeholder="Écris ici tes rappels, pensées, objectifs..."></textarea>
+      <button onclick="saveNotes()">Sauvegarder</button>
+    </div>
+
+    <div class="section">
+      <strong>🤲 Douas utiles :</strong>
+      <ul>
+        <li>Doua du matin : <em>"Ô Allah, protège-moi aujourd’hui et guide mes pas."</em></li>
+        <li>Doua avant de dormir : <em>"Au nom d’Allah, je meurs et je vis."</em></li>
+        <li>Doua contre l’anxiété : <em>"Ô Toi qui changes les cœurs, raffermis mon cœur sur Ta religion."</em></li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <strong>🎶 Vidéos de nasheeds (sans instruments) :</strong>
+      <iframe src="https://www.youtube.com/embed/VOTzk4c1mvo" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/BGgOw5l9ovM" allowfullscreen></iframe>
+    </div>
+
+    <div class="section">
+      <strong>🕰️ Calendrier des prières (via Muslim Pro) :</strong>
+      <p>➡️ <a href="https://www.muslimpro.com/fr" target="_blank">Consulte les horaires de prière ici</a></p>
+    </div>
+  </div>
+
+  <script>
+    const rappels = [
+      "N'oublie pas de faire ta prière à l'heure 🕋",
+      "Lis une page du Coran aujourd’hui 📖",
+      "Fais du dhikr pendant 5 minutes 🤲",
+      "Écoute un nasheed sans instruments pour te recentrer 🎶",
+      "Réfléchis à une bonne action que tu peux faire aujourd'hui 💖"
+    ];
+
+    function newReminder() {
+      const index = Math.floor(Math.random() * rappels.length);
+      document.getElementById("dailyReminder").textContent = rappels[index];
+    }
+
+    function saveNotes() {
+      const notes = document.getElementById("userNotes").value;
+      localStorage.setItem("mesNotes", notes);
+      alert("Notes sauvegardées !");
+    }
+
+    function loadNotes() {
+      const saved = localStorage.getItem("mesNotes");
+      if (saved) {
+        document.getElementById("userNotes").value = saved;
+      }
+    }
+
+    window.onload = function () {
+      newReminder();
+      loadNotes();
+
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log("Service Worker enregistré"))
+          .catch(err => console.log("Erreur Service Worker:", err));
+      }
+    }
+  </script>
+</body>
+</html>
